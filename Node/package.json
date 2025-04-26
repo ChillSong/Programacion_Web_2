@@ -1,0 +1,19 @@
+{
+  "name": "pruebas",
+  "version": "1.0.0",
+  "description": "pruebas para proyecto",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm init"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChillSong/Programacion_Web_2.git"
+  },
+  "author": "ChillSong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChillSong/Programacion_Web_2/issues"
+  },
+  "homepage": "https://github.com/ChillSong/Programacion_Web_2#readme"
+}

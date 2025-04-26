@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1 style="text-align: center;">Generar info</h1>
+        <div style="margin: 50px;">
+            <label for="input1">Nombre:</label>
+            <input type="text" id="input" required maxlength="150" placeholder="Ingresa texto">
+            <br>
+            <label for="input2">COrreo</label>
+            <input type="email" id="input2" required maxlength="100" placeholder="Ingresa correo">
+            <br><br>
+            <label for="input3">Seleccion de institucion</label>
+            <input type="text" id="input3" required list="ListaEscuelas">
+            <datalist id="ListaEscuelas">
+                <option value="IPN">Poli</option>
+                <option value="FesAragon">FA Aragon</option>
+                <option value="UAM">U.A.M</option>
+                <option value="CU">C.U.</option>
+            </datalist>
+            <br><br>
+            <label for="input4">Depenecia: </label>
+            <input type="text" id="input4" required maxlength="50" placeholder="Ingresa dependecia">
+            <div>
+                <button onclick="generarqr()">Generar QR</button>
+            </div>
+            <br><br>
+            <div style="text-align: center;" id="qr-code">
+                <!-- Aqui se van a formar los qr con los datos -->
+            </div>
+        </div>
+    </header>
+    
+</body>
+<script src="app.js"> </script>
+</html>
