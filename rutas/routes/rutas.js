@@ -1,14 +1,18 @@
 const express = require('express');
-
+const path = require('path');
 const router = express.Router();
 
-const path = require('path');
+// Configurar la carpeta de archivos estáticos
+router.use(express.static(path.join(__dirname, '..', 'public')));
 
-//definimos las rutas y los manejadores
-
-router.get("/",(req,res)=>{
-
-    res.sendFile(path.join(__dirname+"/../index.html"))
+// Ruta principal
+router.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'views', 'index.html'));
 });
 
-module.exports=router;x
+// Ruta adicional de ejemplo
+router.get("/ruta1", (req, res) => {
+    res.send("<h1>Esta es la Ruta 1</h1>");
+});
+
+module.exports = router;
