@@ -1,0 +1,22 @@
+{
+  "name": "rutas_uso",
+  "version": "1.0.0",
+  "description": "Clase de uso de rutas",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm , init , "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChillSong/Programacion_Web_2.git"
+  },
+  "author": "ChillSong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChillSong/Programacion_Web_2/issues"
+  },
+  "homepage": "https://github.com/ChillSong/Programacion_Web_2#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}

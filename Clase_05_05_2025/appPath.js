@@ -5,6 +5,9 @@ const app = express();
 
 const port = 3005;
 
+// Configurar la carpeta de archivos estáticos
+app.use(express.static(path.join(__dirname)));
+
 app.get("/",(req,res) =>{
     //res.send("Hola mundo");
     //res.sendFile("C:/Users/misae/Documents/web2/node/05052025/index.html");

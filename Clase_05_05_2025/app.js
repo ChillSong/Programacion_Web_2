@@ -5,7 +5,7 @@ const port = 3005;
 
 app.get("/",(req,res) =>{
     //res.send("Hola mundo");
-    res.sendFile("C:/Users/misae/Documents/web2/node/05052025/index.html");
+    res.sendFile("C:\\Users\\anton\\Desktop\\Programacion_Web_2\\Clase_05_05_2025\\index.html");
 });
 
 app.listen(port, () =>{
