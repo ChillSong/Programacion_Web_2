@@ -1,5 +1,5 @@
 const express = require('express');
-const mySQL = require('mysql');
+const mySQL = require('mysql2');
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -11,9 +11,9 @@ app.set('view engine', 'ejs');
 const db = mySQL.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '123456',
-    database: node_crude,
-    port: 3308
+    password: 'Allthread1.',
+    database: 'node_crude',
+    port: 3306
 });
 
 
@@ -27,3 +27,55 @@ db.connect(err => {
     }
 }
 );
+
+
+//inicio del server
+
+const port = 3306;
+app.listen(port,()=>{
+    console.log(`http://127.0.0.1:${port}`)
+});
+
+//mostrar la lista de los usuarios
+app.get('/',(req,res)=>{
+    //consulta
+    const consultaDB ='SELECT * FROM users';
+
+    //trabajamos con la coneccion
+    db.query(consultaDB , (err,results)=>{
+        if(err){
+            //no se encontro el usuario o se tiene un error
+            console.error('Error al recuperar usuarios',err);
+            //mostraremos informacion al usuario
+            res.send('error, no se recuperan los datos de la DB');
+        }else{
+            res.render('index',{users:results});
+
+        }
+
+    });
+
+});
+
+//modulo para agregar el usuario
+
+app.post('/add', (req,res)=>{
+    const {name, email} = req.body;
+    /*
+        nombre : ari
+        correo : correo@correo
+
+        name : ari
+        email: correo@correo
+    */
+    const insertarRegistro ='INSERT INTO usuarios (name , email) VALUE (?,?)';
+    db.query(insertarRegistro,[name,email],(err)=>{
+        if(err){
+            console.error('error al agregar usuario:',err)
+        }else{
+            res.redirect('/');
+        }
+
+    });
+
+});
