@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="/Estilos.css">
+</head>
+<body>
+    <p>Lista de usuarios</p>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (usuarios && usuarios.length > 0) { %>
+                <% usuarios.forEach(usuario => { %>
+                <tr>
+                    <td><%= usuario.id %></td>
+                    <td><%= usuario.name %></td>
+                    <td><%= usuario.email %></td>
+                    <td>
+                        <a href="/edit/<%= usuario.id %>">Editar</a>
+                        <a href="/delete/<%= usuario.id %>" onclick="return confirm('¿Estás seguro de que quieres eliminar a este usuario?');">Eliminar</a>
+                    </td>
+                </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4">No hay usuarios registrados.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+
+    <form action="/add" method="post">
+        <h2>Registrar Nuevo Usuario</h2>
+        <label for="name">Nombre: </label>
+        <input type="text" name="name" id="name" maxlength="45" required placeholder="Ingresa nombre de usuario">
+        <label for="email">Correo: </label>
+        <input type="email" name="email" id="email" maxlength="45" required placeholder="Ingresa tu email">
+        <button type="submit">Registrar</button>
+    </form>
+</body>
+</html>

@@ -1,14 +1,20 @@
 const express = require('express');
-const mySQL = require('mysql2');
+const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
-//manejo de peticiones de http por medio de req
-app.use(bodyParser.urlencoded({ extended: false }));
-//configuracion de platinlla
-app.set('view engine', 'ejs');
+const port = 3006;
 
-const db = mySQL.createConnection({
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+app.use(express.static(path.join(__dirname, 'Public')));
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'Allthread1.',
@@ -16,66 +22,99 @@ const db = mySQL.createConnection({
     port: 3306
 });
 
-
-//validacion de base de datos
-
 db.connect(err => {
     if (err) {
-        console.error('Error connecting to the database:', err);
-    }else {
-    console.log('Connected to the database');
+        console.error('Error conectando a la base de datos:', err.stack);
+        return;
     }
-}
-);
-
-
-//inicio del server
-
-const port = 3306;
-app.listen(port,()=>{
-    console.log(`http://127.0.0.1:${port}`)
+    console.log('Conectado a la base de datos con id ' + db.threadId);
 });
 
-//mostrar la lista de los usuarios
-app.get('/',(req,res)=>{
-    //consulta
-    const consultaDB ='SELECT * FROM users';
+app.get('/', (req, res) => {
+    const consultaDB = 'SELECT id, name, email FROM usuarios';
 
-    //trabajamos con la coneccion
-    db.query(consultaDB , (err,results)=>{
-        if(err){
-            //no se encontro el usuario o se tiene un error
-            console.error('Error al recuperar usuarios',err);
-            //mostraremos informacion al usuario
-            res.send('error, no se recuperan los datos de la DB');
-        }else{
-            res.render('index',{users:results});
-
+    db.query(consultaDB, (err, results) => {
+        if (err) {
+            console.error('Error al recuperar usuarios de la base de datos:', err);
+            res.status(500).send('Error interno del servidor al recuperar los datos.');
+        } else {
+            res.render('index', { usuarios: results });
         }
-
     });
-
 });
 
-//modulo para agregar el usuario
+app.post('/add', (req, res) => {
+    const { name, email } = req.body;
 
-app.post('/add', (req,res)=>{
-    const {name, email} = req.body;
-    /*
-        nombre : ari
-        correo : correo@correo
+    if (!name || !email) {
+        return res.status(400).send('Nombre y correo electrónico son campos obligatorios.');
+    }
 
-        name : ari
-        email: correo@correo
-    */
-    const insertarRegistro ='INSERT INTO usuarios (name , email) VALUE (?,?)';
-    db.query(insertarRegistro,[name,email],(err)=>{
-        if(err){
-            console.error('error al agregar usuario:',err)
-        }else{
+    const insertarRegistro = 'INSERT INTO usuarios (name, email) VALUES (?, ?)';
+
+    db.query(insertarRegistro, [name, email], (err, result) => {
+        if (err) {
+            console.error('Error al agregar usuario a la base de datos:', err);
+            res.status(500).send('Error interno del servidor al agregar el usuario.');
+        } else {
+            console.log('Usuario añadido con ID:', result.insertId);
             res.redirect('/');
         }
-
     });
+});
 
+app.get('/edit/:id', (req, res) => {
+    const { id } = req.params;
+    const consultaDB = 'SELECT id, name, email FROM usuarios WHERE id = ?';
+
+    db.query(consultaDB, [id], (err, results) => {
+        if (err) {
+            console.error(`Error al recuperar usuario con ID ${id} para edición:`, err);
+            res.status(500).send('Error interno del servidor al recuperar los datos del usuario.');
+        } else if (results.length === 0) {
+            res.status(404).send('Usuario no encontrado.');
+        } else {
+            res.render('edit', { usuario: results[0] });
+        }
+    });
+});
+
+app.post('/update/:id', (req, res) => {
+    const { id } = req.params;
+    const { name, email } = req.body;
+
+    if (!name || !email) {
+        return res.status(400).send('Nombre y correo electrónico son campos obligatorios.');
+    }
+
+    const consultaDB = 'UPDATE usuarios SET name = ?, email = ? WHERE id = ?';
+
+    db.query(consultaDB, [name, email, id], (err) => {
+        if (err) {
+            console.error(`Error al actualizar usuario con ID ${id}:`, err);
+            res.status(500).send('Error interno del servidor al actualizar el usuario.');
+        } else {
+            console.log(`Usuario con ID ${id} actualizado correctamente.`);
+            res.redirect('/');
+        }
+    });
+});
+
+app.get('/delete/:id', (req, res) => {
+    const { id } = req.params;
+    const consultaDB = 'DELETE FROM usuarios WHERE id = ?';
+
+    db.query(consultaDB, [id], (err) => {
+        if (err) {
+            console.error(`Error al eliminar usuario con ID ${id}:`, err);
+            res.status(500).send('Error interno del servidor al eliminar el usuario.');
+        } else {
+            console.log(`Usuario con ID ${id} eliminado correctamente.`);
+            res.redirect('/');
+        }
+    });
+});
+
+app.listen(port, () => {
+    console.log(`Servidor ejecutándose en http://127.0.0.1:${port}`);
 });

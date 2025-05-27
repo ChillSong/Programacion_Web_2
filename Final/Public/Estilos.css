@@ -1,0 +1,127 @@
+/* Public/Estilos.css */
+
+body {
+    font-family: 'Inter', sans-serif; /* Usando Inter según las directrices */
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 20px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+p {
+    font-size: 1.5em;
+    color: #0056b3;
+    margin-bottom: 20px;
+}
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* Asegura que las esquinas redondeadas se apliquen al contenido */
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: left;
+}
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+tr:hover {
+    background-color: #e9ecef;
+}
+a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+label {
+    font-weight: bold;
+    color: #555;
+}
+input[type="text"],
+input[type="email"] {
+    width: calc(100% - 20px); /* Ajustar para el padding */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Incluir padding en el ancho */
+}
+input[type="text"]:focus,
+input[type="email"]:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+button[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    align-self: flex-start; /* Alinear botón al inicio del formulario */
+}
+button[type="submit"]:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    table, form {
+        width: 95%;
+    }
+    th, td {
+        padding: 8px 10px;
+    }
+    a {
+        margin-right: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    table {
+        font-size: 0.9em;
+    }
+    th, td {
+        padding: 6px 8px;
+    }
+    form {
+        padding: 20px;
+    }
+    button[type="submit"] {
+        padding: 10px 15px;
+        font-size: 1em;
+    }
+}
